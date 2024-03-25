@@ -8,13 +8,17 @@ const cors = require("cors");
 const { log } = require("console");
 
 app.use(express.json());
-app.use(cors({
+app.use(
+  cors({
     origin: ["e-com-api-sand.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-  }));
+  })
+);
 
-mongoose.connect("mongodb+srv://meedfaji:a7fEYQyyAMpxrrKs@cluster0.407bt2t.mongodb.net/e-com?retryWrites=true&w=majority&appName=Cluster0");
+mongoose.connect(
+  "mongodb+srv://meedfaji:a7fEYQyyAMpxrrKs@cluster0.407bt2t.mongodb.net/e-com?retryWrites=true&w=majority&appName=Cluster0"
+);
 
 const port = 4000;
 app.listen(port, (error) => {
@@ -30,7 +34,7 @@ app.get("/", (req, res) => {
 });
 
 const storage = multer.diskStorage({
-  destination: "./upload/images",
+  destination: "/tmp/upload/images",
   filename: (req, file, cb) => {
     return cb(
       null,
@@ -41,12 +45,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.use("/images", express.static("./upload/images"));
+app.use("/images", express.static("/tmp/upload/images"));
 
 app.post("/upload", upload.single("product"), (req, res) => {
   res.json({
     success: true,
-    image_url: `http://localhost:${port}/images/${req.file.filename}`,
+    image_url: `/tmp/images/${req.file.filename}`,
   });
 });
 
