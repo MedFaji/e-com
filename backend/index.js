@@ -8,9 +8,13 @@ const cors = require("cors");
 const { log } = require("console");
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ["e-com-api-sand.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }));
 
-mongoose.connect("mongodb://localhost:27017/e-com");
+mongoose.connect("mongodb+srv://meedfaji:a7fEYQyyAMpxrrKs@cluster0.407bt2t.mongodb.net/e-com?retryWrites=true&w=majority&appName=Cluster0");
 
 const port = 4000;
 app.listen(port, (error) => {
